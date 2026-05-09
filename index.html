@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ─── TOKENS ─── */
         :root {
             --color-bg: #0a0a0a;
             --color-surface: #1a1a1a;
@@ -23,21 +22,17 @@
             --font-display: 'Playfair Display', serif;
             --font-body: 'DM Sans', sans-serif;
         }
-
-        /* ─── RESET ─── */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-text); line-height: 1.6; overflow-x: hidden; font-size: 18px; }
         img { display: block; max-width: 100%; }
         a { color: inherit; text-decoration: none; }
 
-        /* ─── GRAIN ─── */
         .grain {
             position: fixed; inset: 0; pointer-events: none; z-index: 999; mix-blend-mode: overlay;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
         }
 
-        /* ─── NAV ─── */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             padding: 1.5rem 4rem;
@@ -71,7 +66,6 @@
         .mobile-lang button { padding: 0.6rem 1.8rem; font-size: 1.05rem; font-weight: 700; border-radius: 4px; border: 1px solid var(--color-border); cursor: pointer; background: var(--color-surface); color: var(--color-text-muted); transition: all 0.2s; }
         .mobile-lang button.active { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
 
-        /* ─── LANGUAGE ─── */
         .en, .de { display: none; }
         body.lang-en .en { display: revert; }
         body.lang-de .de { display: revert; }
@@ -82,7 +76,6 @@
         body.lang-en li.en { display: list-item; }
         body.lang-de li.de { display: list-item; }
 
-        /* ─── HERO ─── */
         .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 7rem 4rem 4rem; position: relative; overflow: hidden; }
         .hero-content { max-width: 1200px; width: 100%; position: relative; z-index: 2; display: flex; gap: 4rem; align-items: center; }
         .hero-text { flex: 1; min-width: 0; }
@@ -116,205 +109,47 @@
         .hero-bg { position: absolute; top: 0; right: 0; width: 45%; height: 100%; opacity: 0.03; z-index: 1; pointer-events: none; }
         .hero-bg svg { width: 100%; height: 100%; }
 
-        /* ─── SECTION BASE ─── */
         section { padding: 8rem 4rem; position: relative; }
         .section-header { max-width: 1200px; margin: 0 auto 5rem; }
         .section-label { font-size: 0.95rem; color: var(--color-accent); font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
         .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; }
         .section-desc { font-size: 1.15rem; color: var(--color-text-muted); max-width: 600px; }
 
-        /* ════════════════════════════════════════════
-           EXPERIENCE — DATE-LEFT  |  SPINE  |  CARD-RIGHT
-           Matches screenshot: pill date outside, dot on spine,
-           card with all content left-aligned inside.
-           ════════════════════════════════════════════ */
-
-        .timeline-outer {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* ── Each row: [date col] [spine col] [card col] ── */
-        .tl-entry {
-            display: grid;
-            /* 160px date | 48px spine zone | rest = card */
-            grid-template-columns: 160px 48px 1fr;
-            align-items: start;
-            padding-bottom: 2.75rem;
-            position: relative;
-        }
+        /* ── TIMELINE ── */
+        .timeline-outer { max-width: 1200px; margin: 0 auto; position: relative; }
+        .tl-entry { display: grid; grid-template-columns: 160px 48px 1fr; align-items: start; padding-bottom: 2.75rem; position: relative; }
         .tl-entry:last-child { padding-bottom: 0; }
-
-        /* ── DATE PILL — sits in column 1 ── */
-        .tl-period {
-            grid-column: 1;
-            grid-row: 1;
-            /* align the pill so it lines up with the dot */
-            padding-top: 1.35rem;
-            display: flex;
-            justify-content: flex-end;
-            padding-right: 0; /* gap handled by grid */
-        }
-        .tl-period-inner {
-            display: inline-block;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--color-text-muted);
-            white-space: nowrap;
-            border: 1px solid var(--color-border2);
-            padding: 0.28rem 0.8rem;
-            border-radius: 3px;
-            background: var(--color-surface);
-            letter-spacing: 0.03em;
-            transition: border-color 0.3s, color 0.3s;
-        }
-        .tl-entry:hover .tl-period-inner {
-            border-color: var(--color-accent);
-            color: var(--color-accent);
-        }
-
-        /* ── SPINE COLUMN — column 2 ── */
-        .tl-spine {
-            grid-column: 2;
-            grid-row: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            /* full height so the line passes through */
-            align-self: stretch;
-        }
-        /* vertical line for this entry */
-        .tl-spine::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: -2.75rem; /* extends into the padding gap below */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            background: linear-gradient(to bottom, var(--color-accent), var(--color-accent));
-        }
-        /* last entry: stop line at the dot */
-        .tl-entry:last-child .tl-spine::before {
-            bottom: 0;
-            background: linear-gradient(to bottom, var(--color-accent), transparent);
-        }
-        /* the dot */
-        .tl-dot {
-            position: relative;
-            z-index: 2;
-            margin-top: 1.55rem; /* aligns dot with card top / company name */
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--color-bg);
-            border: 2.5px solid var(--color-border2);
-            flex-shrink: 0;
-            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-        }
-        .tl-entry:hover .tl-dot {
-            border-color: var(--color-accent);
-            background: var(--color-accent);
-            box-shadow: 0 0 0 4px rgba(255,107,53,0.18), 0 0 18px rgba(255,107,53,0.5);
-        }
-
-        /* ── CARD — column 3 ── */
-        .tl-card {
-            grid-column: 3;
-            grid-row: 1;
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            padding: 2rem 2.25rem;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            text-align: left; /* ALL content left-aligned */
-        }
-        /* accent top-left bar that grows on hover */
-        .tl-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 3px; height: 0;
-            background: linear-gradient(180deg, var(--color-accent), var(--color-accent-2));
-            transition: height 0.35s ease;
-        }
-        .tl-entry:hover .tl-card {
-            border-color: var(--color-accent);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-        }
+        .tl-period { grid-column: 1; grid-row: 1; padding-top: 1.35rem; display: flex; justify-content: flex-end; }
+        .tl-period-inner { display: inline-block; font-size: 0.78rem; font-weight: 700; color: var(--color-text-muted); white-space: nowrap; border: 1px solid var(--color-border2); padding: 0.28rem 0.8rem; border-radius: 3px; background: var(--color-surface); letter-spacing: 0.03em; transition: border-color 0.3s, color 0.3s; }
+        .tl-entry:hover .tl-period-inner { border-color: var(--color-accent); color: var(--color-accent); }
+        .tl-spine { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: center; position: relative; align-self: stretch; }
+        .tl-spine::before { content: ''; position: absolute; top: 0; bottom: -2.75rem; left: 50%; transform: translateX(-50%); width: 2px; background: linear-gradient(to bottom, var(--color-accent), var(--color-accent)); }
+        .tl-entry:last-child .tl-spine::before { bottom: 0; background: linear-gradient(to bottom, var(--color-accent), transparent); }
+        .tl-dot { position: relative; z-index: 2; margin-top: 1.55rem; width: 14px; height: 14px; border-radius: 50%; background: var(--color-bg); border: 2.5px solid var(--color-border2); flex-shrink: 0; transition: border-color 0.3s, box-shadow 0.3s, background 0.3s; }
+        .tl-entry:hover .tl-dot { border-color: var(--color-accent); background: var(--color-accent); box-shadow: 0 0 0 4px rgba(255,107,53,0.18), 0 0 18px rgba(255,107,53,0.5); }
+        .tl-card { grid-column: 3; grid-row: 1; background: var(--color-surface); border: 1px solid var(--color-border); padding: 2rem 2.25rem; position: relative; overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s; text-align: left; }
+        .tl-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: linear-gradient(180deg, var(--color-accent), var(--color-accent-2)); transition: height 0.35s ease; }
+        .tl-entry:hover .tl-card { border-color: var(--color-accent); box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
         .tl-entry:hover .tl-card::before { height: 100%; }
-
-        /* ── Card content — all left-aligned ── */
-        .tl-head {
-            margin-bottom: 1rem;
-        }
-        .tl-company {
-            font-family: var(--font-display);
-            font-size: 1.75rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 0.2rem;
-            text-align: left;
-        }
-        .tl-role-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--color-accent);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.2rem;
-            text-align: left;
-        }
+        .tl-head { margin-bottom: 1rem; }
+        .tl-company { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.2rem; text-align: left; }
+        .tl-role-label { font-size: 0.8rem; font-weight: 600; color: var(--color-accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; text-align: left; }
         .tl-meta { font-size: 0.9rem; color: var(--color-text-muted); text-align: left; }
-        .tl-loc  { font-size: 0.85rem; color: var(--color-accent); font-weight: 500; margin-top: 0.15rem; text-align: left; }
-
-        /* Metric badges row */
-        .tl-metrics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .metric-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 0.22rem 0.75rem;
-            border-radius: 20px;
-        }
-        .metric-badge.highlight {
-            background: var(--color-accent);
-            color: #000;
-            box-shadow: 0 0 14px rgba(255,107,53,0.45);
-            animation: pulseBadge 3s ease-in-out infinite;
-        }
-        @keyframes pulseBadge {
-            0%,100% { box-shadow: 0 0 14px rgba(255,107,53,0.45); }
-            50%      { box-shadow: 0 0 26px rgba(255,107,53,0.75); }
-        }
-        .metric-badge.plain {
-            background: rgba(255,107,53,0.08);
-            color: var(--color-accent);
-            border: 1px solid rgba(255,107,53,0.22);
-        }
+        .tl-loc { font-size: 0.85rem; color: var(--color-accent); font-weight: 500; margin-top: 0.15rem; text-align: left; }
+        .tl-metrics { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .metric-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; font-weight: 800; padding: 0.22rem 0.75rem; border-radius: 20px; }
+        .metric-badge.highlight { background: var(--color-accent); color: #000; box-shadow: 0 0 14px rgba(255,107,53,0.45); animation: pulseBadge 3s ease-in-out infinite; }
+        @keyframes pulseBadge { 0%,100% { box-shadow: 0 0 14px rgba(255,107,53,0.45); } 50% { box-shadow: 0 0 26px rgba(255,107,53,0.75); } }
+        .metric-badge.plain { background: rgba(255,107,53,0.08); color: var(--color-accent); border: 1px solid rgba(255,107,53,0.22); }
         .metric-num { font-size: 0.92rem; font-weight: 900; }
-
-        /* Bullet list */
         .tl-bullets { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
         .tl-bullets li { font-size: 0.95rem; color: var(--color-text-muted); padding-left: 1.5rem; position: relative; line-height: 1.7; }
         .tl-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.75rem; top: 0.2rem; }
-
-        /* Tech tags */
         .tl-tools { display: flex; flex-wrap: wrap; gap: 0.45rem; }
         .t-tag { padding: 0.35rem 0.85rem; font-size: 0.8rem; font-weight: 500; border-radius: 2px; background: rgba(255,107,53,0.07); color: var(--color-accent); border: 1px solid rgba(255,107,53,0.2); transition: all 0.2s; }
         .t-tag:hover { background: rgba(255,107,53,0.16); transform: translateY(-2px); }
 
-        /* ─── PROJECTS (unchanged) ─── */
+        /* ── PROJECTS ── */
         .projects-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
         .project-card { background: var(--color-surface); border: 1px solid var(--color-border); overflow: hidden; transition: all 0.35s ease; display: flex; flex-direction: column; }
         .project-card:hover { border-color: var(--color-accent); transform: translateY(-8px); }
@@ -326,7 +161,201 @@
         .project-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.65rem; }
         .project-desc { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.7; }
 
-        /* ─── SKILLS (unchanged) ─── */
+        /* ══════════════════════════════════════════
+           CERTIFICATIONS SECTION
+        ══════════════════════════════════════════ */
+        #certifications {
+            background: var(--color-surface2);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Decorative background grid */
+        #certifications::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,107,53,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,107,53,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        /* Radial glow top-right */
+        #certifications::after {
+            content: '';
+            position: absolute;
+            top: -120px; right: -120px;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .cert-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─ Column header ─ */
+        .cert-col-head {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+        .cert-col-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .cert-col-icon.orange { background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3); }
+        .cert-col-icon.teal   { background: rgba(78,205,196,0.12); border: 1px solid rgba(78,205,196,0.3); }
+        .cert-col-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .cert-col-title.orange { color: var(--color-accent); }
+        .cert-col-title.teal   { color: var(--color-accent-2); }
+
+        /* ─ Individual cert card ─ */
+        .cert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 2px;
+            margin-bottom: 0.85rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: var(--color-text);
+            cursor: default;
+        }
+        .cert-item.linked { cursor: pointer; }
+        .cert-item.linked:hover {
+            border-color: var(--color-accent);
+            transform: translateX(6px);
+            box-shadow: -6px 0 0 var(--color-accent), 0 8px 30px rgba(0,0,0,0.35);
+        }
+        /* left accent stripe */
+        .cert-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 0;
+            background: linear-gradient(180deg, var(--color-accent), var(--color-accent-2));
+            transition: height 0.3s ease;
+        }
+        .cert-item.linked:hover::before { height: 100%; }
+
+        /* award col — teal accent */
+        .cert-item.award.linked:hover {
+            border-color: var(--color-accent-2);
+            box-shadow: -6px 0 0 var(--color-accent-2), 0 8px 30px rgba(0,0,0,0.35);
+        }
+        .cert-item.award::before {
+            background: linear-gradient(180deg, var(--color-accent-2), var(--color-accent));
+        }
+
+        /* badge icon area */
+        .cert-badge {
+            width: 44px; height: 44px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+        .cert-item.linked:hover .cert-badge { transform: scale(1.15) rotate(-5deg); }
+        .cert-badge.orange { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); }
+        .cert-badge.teal   { background: rgba(78,205,196,0.1); border: 1px solid rgba(78,205,196,0.25); }
+
+        .cert-body { flex: 1; min-width: 0; }
+        .cert-name {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.2rem;
+            line-height: 1.3;
+        }
+        .cert-issuer {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+        .cert-year {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border2);
+            padding: 0.18rem 0.55rem;
+            border-radius: 3px;
+            white-space: nowrap;
+            align-self: flex-start;
+            flex-shrink: 0;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .cert-item.linked:hover .cert-year { border-color: var(--color-accent); color: var(--color-accent); }
+        .cert-item.award.linked:hover .cert-year { border-color: var(--color-accent-2); color: var(--color-accent-2); }
+
+        /* external link arrow */
+        .cert-arrow {
+            position: absolute;
+            top: 0.9rem; right: 1rem;
+            font-size: 0.85rem;
+            color: var(--color-accent);
+            opacity: 0;
+            transform: translate(-4px, 4px);
+            transition: opacity 0.25s, transform 0.25s;
+            font-weight: 700;
+        }
+        .cert-item.linked:hover .cert-arrow { opacity: 1; transform: translate(0, 0); }
+
+        /* ─ Bottom note / divider ─ */
+        .cert-note {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .cert-note-dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px rgba(74,222,128,0.7);
+            animation: blink 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+        .cert-note p {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+        .cert-note a {
+            color: var(--color-accent);
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .cert-note a:hover { color: var(--color-accent-2); }
+
+        /* ── SKILLS ── */
         .skills-container { max-width: 1200px; margin: 0 auto; }
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
         .skill-card { background: var(--color-surface); border: 1px solid var(--color-border); padding: 2rem; transition: all 0.3s ease; }
@@ -336,154 +365,37 @@
         .skill-pill { font-size: 0.9rem; color: var(--color-text-muted); padding: 0.45rem 0.9rem; background: rgba(255,255,255,0.03); border-radius: 2px; transition: all 0.25s ease; }
         .skill-pill:hover { color: var(--color-accent); background: rgba(255,107,53,0.08); }
 
-        /* ════════════════════════════════════════════
-           CONTACT — EDITORIAL SPLIT  (matches screenshot)
-           ════════════════════════════════════════════ */
-        .contact-split-outer {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border: 1px solid var(--color-border);
-            overflow: hidden;
-        }
-
-        /* ── LEFT PANEL ── */
-        .cs-left {
-            background: var(--color-surface2);
-            padding: 4rem 3.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            border-right: 1px solid var(--color-border);
-        }
-        /* subtle radial glow bottom-right */
-        .cs-left::after {
-            content: '';
-            position: absolute;
-            bottom: -80px; right: -80px;
-            width: 280px; height: 280px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,107,53,0.09) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .cs-big {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 3.25rem);
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.25rem;
-        }
-        /* "some" → accent orange, "thing" → accent-2 teal — matches screenshot gradient word */
+        /* ── CONTACT ── */
+        .contact-split-outer { max-width: 1200px; margin: 0 auto; }
+        .contact-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--color-border); overflow: hidden; }
+        .cs-left { background: var(--color-surface2); padding: 4rem 3.5rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; border-right: 1px solid var(--color-border); }
+        .cs-left::after { content: ''; position: absolute; bottom: -80px; right: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,53,0.09) 0%, transparent 70%); pointer-events: none; }
+        .cs-big { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
         .cs-big .word-accent { color: var(--color-accent); }
         .cs-big .word-accent2 { color: var(--color-accent-2); }
-
-        .cs-sub {
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-            line-height: 1.8;
-            max-width: 340px;
-            margin-bottom: 2rem;
-        }
-        .cs-avail {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--color-accent);
-        }
-        .cs-avail-dot {
-            width: 9px; height: 9px; border-radius: 50%;
-            background: #4ade80;
-            box-shadow: 0 0 8px rgba(74,222,128,0.7);
-            animation: blink 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
-
-        /* ── RIGHT PANEL ── */
-        .cs-right {
-            background: var(--color-surface);
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cs-link {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            padding: 1.75rem 2.25rem;
-            border-bottom: 1px solid var(--color-border);
-            text-decoration: none;
-            color: var(--color-text);
-            position: relative;
-            transition: background 0.25s;
-        }
+        .cs-sub { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.8; max-width: 340px; margin-bottom: 2rem; }
+        .cs-avail { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+        .cs-avail-dot { width: 9px; height: 9px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px rgba(74,222,128,0.7); animation: blink 2s ease-in-out infinite; flex-shrink: 0; }
+        .cs-right { background: var(--color-surface); padding: 0; display: flex; flex-direction: column; }
+        .cs-link { display: flex; align-items: center; gap: 1.25rem; padding: 1.75rem 2.25rem; border-bottom: 1px solid var(--color-border); text-decoration: none; color: var(--color-text); position: relative; transition: background 0.25s; }
         .cs-link:last-child { border-bottom: none; }
         .cs-link:hover { background: rgba(255,107,53,0.04); }
-
-        /* arrow that slides in on hover */
-        .cs-link::after {
-            content: '→';
-            position: absolute;
-            right: 1.75rem;
-            font-size: 1.1rem;
-            color: var(--color-accent);
-            opacity: 0;
-            transform: translateX(-8px);
-            transition: opacity 0.25s, transform 0.25s;
-        }
+        .cs-link::after { content: '→'; position: absolute; right: 1.75rem; font-size: 1.1rem; color: var(--color-accent); opacity: 0; transform: translateX(-8px); transition: opacity 0.25s, transform 0.25s; }
         .cs-link:hover::after { opacity: 1; transform: translateX(0); }
-
-        /* icon circle — matches dark grey circles in screenshot */
-        .cs-icon {
-            width: 46px; height: 46px;
-            border-radius: 50%;
-            background: #252525;
-            border: 1px solid var(--color-border2);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-            transition: background 0.25s, border-color 0.25s;
-        }
+        .cs-icon { width: 46px; height: 46px; border-radius: 50%; background: #252525; border: 1px solid var(--color-border2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; transition: background 0.25s, border-color 0.25s; }
         .cs-link:hover .cs-icon { background: var(--color-accent); border-color: var(--color-accent); }
-
         .cs-info { flex: 1; }
-        .cs-lbl {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 0.2rem;
-        }
-        .cs-val {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--color-text);
-            transition: color 0.25s;
-        }
+        .cs-lbl { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 0.2rem; }
+        .cs-val { font-size: 0.95rem; font-weight: 600; color: var(--color-text); transition: color 0.25s; }
         .cs-link:hover .cs-val { color: var(--color-accent); }
 
-        /* ─── FOOTER ─── */
         footer { padding: 2.5rem 4rem; border-top: 1px solid var(--color-border); text-align: center; color: var(--color-text-muted); font-size: 0.95rem; }
         footer a { color: var(--color-accent); }
 
-        /* ─── REVEAL ─── */
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* ─── RESPONSIVE ─── */
+        /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
             nav { padding: 1.25rem 2.5rem; }
             .hero { padding: 7rem 2.5rem 4rem; }
@@ -491,24 +403,19 @@
             footer { padding: 2rem 2.5rem; }
             .projects-grid { grid-template-columns: repeat(2, 1fr); }
         }
-
         @media (max-width: 900px) {
-            /* Timeline: shrink date col */
             .tl-entry { grid-template-columns: 100px 36px 1fr; }
             .tl-period-inner { font-size: 0.72rem; padding: 0.22rem 0.6rem; }
-
-            /* Contact split → stack */
             .contact-split { grid-template-columns: 1fr; }
             .cs-left { border-right: none; border-bottom: 1px solid var(--color-border); padding: 3rem 2.5rem; }
             .cs-big { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+            .cert-layout { grid-template-columns: 1fr; gap: 2rem; }
         }
-
         @media (max-width: 768px) {
             body { font-size: 16px; }
             nav { padding: 1rem 1.25rem; }
             .nav-links, .lang-toggle { display: none; }
             .hamburger { display: flex; }
-
             .hero { padding: 6rem 1.25rem 3rem; min-height: auto; }
             .hero-content { flex-direction: column-reverse; gap: 2rem; align-items: center; }
             .hero-text { text-align: center; }
@@ -519,56 +426,25 @@
             .hero-profile { width: 100%; align-items: center; }
             .profile-image { width: 200px; height: 200px; }
             .profile-placeholder { font-size: 3.5rem; }
-
             section { padding: 4rem 1.25rem; }
             footer { padding: 2rem 1.25rem; }
-
-            /* Timeline mobile: collapse date col, keep spine + card */
-            .tl-entry {
-                grid-template-columns: 28px 1fr;
-                padding-bottom: 2rem;
-            }
-            /* hide the date pill on mobile — show it inline inside card instead */
+            .tl-entry { grid-template-columns: 28px 1fr; padding-bottom: 2rem; }
             .tl-period { display: none; }
-            .tl-spine {
-                grid-column: 1;
-                grid-row: 1;
-            }
-            .tl-card {
-                grid-column: 2;
-                grid-row: 1;
-                padding: 1.4rem 1.25rem;
-            }
-            /* show period as a small label at top of card on mobile */
-            .tl-card::after {
-                content: attr(data-period);
-                display: block;
-                font-size: 0.7rem;
-                font-weight: 700;
-                color: var(--color-text-muted);
-                letter-spacing: 0.06em;
-                margin-bottom: 0.5rem;
-                border: 1px solid var(--color-border2);
-                display: inline-block;
-                padding: 0.18rem 0.6rem;
-                border-radius: 3px;
-                margin-bottom: 0.75rem;
-            }
+            .tl-spine { grid-column: 1; grid-row: 1; }
+            .tl-card { grid-column: 2; grid-row: 1; padding: 1.4rem 1.25rem; }
+            .tl-card::after { content: attr(data-period); display: inline-block; font-size: 0.7rem; font-weight: 700; color: var(--color-text-muted); letter-spacing: 0.06em; border: 1px solid var(--color-border2); padding: 0.18rem 0.6rem; border-radius: 3px; margin-bottom: 0.75rem; }
             .tl-spine::before { bottom: -2rem; }
             .tl-dot { margin-top: 1.2rem; width: 12px; height: 12px; }
             .tl-company { font-size: 1.35rem; }
             .tl-metrics { gap: 0.35rem; }
-
             .projects-grid { grid-template-columns: 1fr; }
             .skills-grid { grid-template-columns: repeat(2, 1fr); }
-
-            /* Contact mobile */
             .contact-split-outer { padding: 0; }
             .cs-left { padding: 2.5rem 1.5rem; }
             .cs-right .cs-link { padding: 1.4rem 1.5rem; }
             .cs-link::after { right: 1.25rem; }
+            .cert-item.linked:hover { transform: translateY(-2px); box-shadow: 0 -4px 0 var(--color-accent), 0 8px 30px rgba(0,0,0,0.35); }
         }
-
         @media (max-width: 420px) {
             .hero-title { font-size: 2.4rem; }
             .profile-image { width: 170px; height: 170px; }
@@ -588,6 +464,8 @@
     <a href="#experience" class="de" onclick="closeMobile()">Erfahrung</a>
     <a href="#projects" class="en" onclick="closeMobile()">Projects</a>
     <a href="#projects" class="de" onclick="closeMobile()">Projekte</a>
+    <a href="#certifications" class="en" onclick="closeMobile()">Certifications</a>
+    <a href="#certifications" class="de" onclick="closeMobile()">Zertifikate</a>
     <a href="#skills" class="en" onclick="closeMobile()">Skills</a>
     <a href="#skills" class="de" onclick="closeMobile()">Kenntnisse</a>
     <a href="#contact" class="en" onclick="closeMobile()">Contact</a>
@@ -609,9 +487,10 @@
         </div>
         <ul class="nav-links">
             <li><a href="#experience" class="en">Experience</a><a href="#experience" class="de">Erfahrung</a></li>
-            <li><a href="#projects"   class="en">Projects</a>  <a href="#projects"   class="de">Projekte</a></li>
-            <li><a href="#skills"     class="en">Skills</a>    <a href="#skills"     class="de">Kenntnisse</a></li>
-            <li><a href="#contact"    class="en">Contact</a>   <a href="#contact"    class="de">Kontakt</a></li>
+            <li><a href="#projects" class="en">Projects</a><a href="#projects" class="de">Projekte</a></li>
+            <li><a href="#certifications" class="en">Certifications</a><a href="#certifications" class="de">Zertifikate</a></li>
+            <li><a href="#skills" class="en">Skills</a><a href="#skills" class="de">Kenntnisse</a></li>
+            <li><a href="#contact" class="en">Contact</a><a href="#contact" class="de">Kontakt</a></li>
         </ul>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
@@ -631,26 +510,10 @@
             <p class="hero-description en">Product Specialist with 8+ years of experience driving digital products across B2B/B2C SaaS and data-driven platforms. Skilled in product strategy, website analytics, and automation, with a strong focus on leveraging AI-driven insights to optimize user experience and business performance. Experience includes E-Commerce, supporting digital growth and customer-focused solutions.</p>
             <p class="hero-description de">Produkt-Spezialist mit über 8 Jahren Erfahrung in der Entwicklung digitaler Produkte für B2B/B2C-SaaS- und datengetriebene Plattformen. Kompetent in Produktstrategie, Website-Analytics und Automatisierung – mit Fokus auf KI-gestützte Erkenntnisse zur Optimierung von Nutzererfahrung und Unternehmensleistung.</p>
             <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-number">8+</div>
-                    <div class="stat-label en">Years Experience</div>
-                    <div class="stat-label de">Jahre Erfahrung</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">6+</div>
-                    <div class="stat-label en">Industries</div>
-                    <div class="stat-label de">Branchen</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label en">Tools Expertise</div>
-                    <div class="stat-label de">Tools-Expertise</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">4+</div>
-                    <div class="stat-label en">Languages</div>
-                    <div class="stat-label de">Sprachen</div>
-                </div>
+                <div class="stat"><div class="stat-number">8+</div><div class="stat-label en">Years Experience</div><div class="stat-label de">Jahre Erfahrung</div></div>
+                <div class="stat"><div class="stat-number">6+</div><div class="stat-label en">Industries</div><div class="stat-label de">Branchen</div></div>
+                <div class="stat"><div class="stat-number">15+</div><div class="stat-label en">Tools Expertise</div><div class="stat-label de">Tools-Expertise</div></div>
+                <div class="stat"><div class="stat-number">4+</div><div class="stat-label en">Languages</div><div class="stat-label de">Sprachen</div></div>
             </div>
             <div class="cta-buttons">
                 <a href="https://www.linkedin.com/in/mitesh-vishwasrao-302059a6/details/recommendations/" target="_blank" class="btn btn-primary"><span class="en">View Recommendations</span><span class="de">Empfehlungen ansehen</span></a>
@@ -677,7 +540,7 @@
     </div>
 </section>
 
-<!-- ═══ EXPERIENCE — LEFT-ALIGNED TIMELINE ═══ -->
+<!-- ═══ EXPERIENCE ═══ -->
 <section id="experience">
     <div class="section-header reveal">
         <div class="section-label"><span class="en">Career Journey</span><span class="de">Karriereweg</span></div>
@@ -685,16 +548,10 @@
         <p class="section-desc en">A track record of driving product excellence across diverse industries and technologies.</p>
         <p class="section-desc de">Eine nachweisliche Erfolgsbilanz in verschiedenen Branchen und Technologien.</p>
     </div>
-
     <div class="timeline-outer">
-
-        <!-- ── vaylens ── -->
+        <!-- vaylens -->
         <div class="tl-entry reveal">
-            <div class="tl-period">
-                <div class="tl-period-inner">
-                    <span class="en">2024 – Present</span><span class="de">2024 – Aktuell</span>
-                </div>
-            </div>
+            <div class="tl-period"><div class="tl-period-inner"><span class="en">2024 – Present</span><span class="de">2024 – Aktuell</span></div></div>
             <div class="tl-spine"><div class="tl-dot"></div></div>
             <div class="tl-card" data-period="2024 – Present">
                 <div class="tl-head">
@@ -717,17 +574,12 @@
                     <li class="de">Power BI &amp; Airtable zur KPI-Überwachung mit strategischen Insights und Produkt-Updates via UserFlow</li>
                     <li class="de">Mitarbeit an UX/UI-Optimierungen über TYPO3 &amp; Webflow Touchpoints</li>
                 </ul>
-                <div class="tl-tools">
-                    <span class="t-tag">Zapier</span><span class="t-tag">Power BI</span><span class="t-tag">Salesforce</span><span class="t-tag">Figma</span><span class="t-tag">TYPO3</span><span class="t-tag">HubSpot</span><span class="t-tag">Webflow</span><span class="t-tag">Airtable</span><span class="t-tag">Make</span><span class="t-tag">Postman</span><span class="t-tag">Mailchimp</span><span class="t-tag">Power Automate</span><span class="t-tag">ChatGPT · Claude</span>
-                </div>
+                <div class="tl-tools"><span class="t-tag">Zapier</span><span class="t-tag">Power BI</span><span class="t-tag">Salesforce</span><span class="t-tag">Figma</span><span class="t-tag">TYPO3</span><span class="t-tag">HubSpot</span><span class="t-tag">Webflow</span><span class="t-tag">Airtable</span><span class="t-tag">Make</span><span class="t-tag">Postman</span><span class="t-tag">Mailchimp</span><span class="t-tag">Power Automate</span><span class="t-tag">ChatGPT · Claude</span></div>
             </div>
         </div>
-
-        <!-- ── Myos ── -->
+        <!-- Myos -->
         <div class="tl-entry reveal">
-            <div class="tl-period">
-                <div class="tl-period-inner">2022 – 2023</div>
-            </div>
+            <div class="tl-period"><div class="tl-period-inner">2022 – 2023</div></div>
             <div class="tl-spine"><div class="tl-dot"></div></div>
             <div class="tl-card" data-period="2022 – 2023">
                 <div class="tl-head">
@@ -750,17 +602,12 @@
                     <li class="de">KI-Chatbot-Einsatz – 30% Reduktion der Support-Anfragen und gesteigerte Kundenbindung</li>
                     <li class="de">Mixpanel und Google Analytics für KPI-Dashboards; API-Implementierungen zur Produktverbesserung</li>
                 </ul>
-                <div class="tl-tools">
-                    <span class="t-tag">Intercom</span><span class="t-tag">Mixpanel</span><span class="t-tag">GA4</span><span class="t-tag">Hotjar</span><span class="t-tag">Webflow</span><span class="t-tag">PostgreSQL</span><span class="t-tag">Zapier</span><span class="t-tag">n8n</span><span class="t-tag">Unleash</span><span class="t-tag">BigQuery</span><span class="t-tag">Segment</span><span class="t-tag">Pipedrive</span>
-                </div>
+                <div class="tl-tools"><span class="t-tag">Intercom</span><span class="t-tag">Mixpanel</span><span class="t-tag">GA4</span><span class="t-tag">Hotjar</span><span class="t-tag">Webflow</span><span class="t-tag">PostgreSQL</span><span class="t-tag">Zapier</span><span class="t-tag">n8n</span><span class="t-tag">Unleash</span><span class="t-tag">BigQuery</span><span class="t-tag">Segment</span><span class="t-tag">Pipedrive</span></div>
             </div>
         </div>
-
-        <!-- ── AMAZD ── -->
+        <!-- AMAZD -->
         <div class="tl-entry reveal">
-            <div class="tl-period">
-                <div class="tl-period-inner">2021 – 2022</div>
-            </div>
+            <div class="tl-period"><div class="tl-period-inner">2021 – 2022</div></div>
             <div class="tl-spine"><div class="tl-dot"></div></div>
             <div class="tl-card" data-period="2021 – 2022">
                 <div class="tl-head">
@@ -780,17 +627,12 @@
                     <li class="de">Marktforschung und Wettbewerbsanalyse mit BuiltWith und SEMrush – 20% Steigerung der Datenlisten</li>
                     <li class="de">SQL-Analysen für Web-App-Daten zur Gewinnung kundenspezifischer Erkenntnisse</li>
                 </ul>
-                <div class="tl-tools">
-                    <span class="t-tag">BuiltWith</span><span class="t-tag">Mode</span><span class="t-tag">PostgreSQL</span><span class="t-tag">Shopify</span><span class="t-tag">User Testing</span><span class="t-tag">Locize</span>
-                </div>
+                <div class="tl-tools"><span class="t-tag">BuiltWith</span><span class="t-tag">Mode</span><span class="t-tag">PostgreSQL</span><span class="t-tag">Shopify</span><span class="t-tag">User Testing</span><span class="t-tag">Locize</span></div>
             </div>
         </div>
-
-        <!-- ── Haqdarshak ── -->
+        <!-- Haqdarshak -->
         <div class="tl-entry reveal">
-            <div class="tl-period">
-                <div class="tl-period-inner">2020 – 2021</div>
-            </div>
+            <div class="tl-period"><div class="tl-period-inner">2020 – 2021</div></div>
             <div class="tl-spine"><div class="tl-dot"></div></div>
             <div class="tl-card" data-period="2020 – 2021">
                 <div class="tl-head">
@@ -812,17 +654,12 @@
                     <li class="de">Leitung von Nutzertests und Behebung zentraler Usability-Probleme – 35% bessere User Experience</li>
                     <li class="de">Einsatz von Firebase für Event-Tracking und datenbasierte Produktentscheidungen</li>
                 </ul>
-                <div class="tl-tools">
-                    <span class="t-tag">JIRA</span><span class="t-tag">Firebase</span><span class="t-tag">Heap</span><span class="t-tag">Universal Analytics</span><span class="t-tag">Figma</span><span class="t-tag">Postman</span>
-                </div>
+                <div class="tl-tools"><span class="t-tag">JIRA</span><span class="t-tag">Firebase</span><span class="t-tag">Heap</span><span class="t-tag">Universal Analytics</span><span class="t-tag">Figma</span><span class="t-tag">Postman</span></div>
             </div>
         </div>
-
-        <!-- ── Divine Solitaires ── -->
+        <!-- Divine Solitaires -->
         <div class="tl-entry reveal">
-            <div class="tl-period">
-                <div class="tl-period-inner">2017 – 2020</div>
-            </div>
+            <div class="tl-period"><div class="tl-period-inner">2017 – 2020</div></div>
             <div class="tl-spine"><div class="tl-dot"></div></div>
             <div class="tl-card" data-period="2017 – 2020">
                 <div class="tl-head">
@@ -845,17 +682,12 @@
                     <li class="de">Steigerung der Markensichtbarkeit und SEO/SEA; Conversion-Optimierung durch A/B-Testing</li>
                     <li class="de">BI-Dashboards und API-Integrationen zur KPI-Verfolgung</li>
                 </ul>
-                <div class="tl-tools">
-                    <span class="t-tag">Universal Analytics</span><span class="t-tag">Optimizely</span><span class="t-tag">Magento</span><span class="t-tag">Shopify</span><span class="t-tag">Snowflake</span><span class="t-tag">Looker Studio</span><span class="t-tag">Postman</span><span class="t-tag">Shopware</span><span class="t-tag">GTM</span>
-                </div>
+                <div class="tl-tools"><span class="t-tag">Universal Analytics</span><span class="t-tag">Optimizely</span><span class="t-tag">Magento</span><span class="t-tag">Shopify</span><span class="t-tag">Snowflake</span><span class="t-tag">Looker Studio</span><span class="t-tag">Postman</span><span class="t-tag">Shopware</span><span class="t-tag">GTM</span></div>
             </div>
         </div>
-
-        <!-- ── Tacto Infomedia ── -->
+        <!-- Tacto -->
         <div class="tl-entry reveal">
-            <div class="tl-period">
-                <div class="tl-period-inner">2017</div>
-            </div>
+            <div class="tl-period"><div class="tl-period-inner">2017</div></div>
             <div class="tl-spine"><div class="tl-dot"></div></div>
             <div class="tl-card" data-period="2017">
                 <div class="tl-head">
@@ -877,16 +709,13 @@
                     <li class="de">Verbesserung der Customer Experience durch plattformspezifische Use Cases, Personas und Prototypen</li>
                     <li class="de">Optimierung der Testprozesse mit Trello und Redmine – 30% Reduktion von App-Problemen</li>
                 </ul>
-                <div class="tl-tools">
-                    <span class="t-tag">Universal Analytics</span><span class="t-tag">Figma</span><span class="t-tag">Redmine</span><span class="t-tag">Trello</span><span class="t-tag">Google Excel</span><span class="t-tag">Loom</span>
-                </div>
+                <div class="tl-tools"><span class="t-tag">Universal Analytics</span><span class="t-tag">Figma</span><span class="t-tag">Redmine</span><span class="t-tag">Trello</span><span class="t-tag">Google Excel</span><span class="t-tag">Loom</span></div>
             </div>
         </div>
-
-    </div><!-- /timeline-outer -->
+    </div>
 </section>
 
-<!-- ═══ PROJECTS (unchanged) ═══ -->
+<!-- ═══ PROJECTS ═══ -->
 <section id="projects">
     <div class="section-header reveal">
         <div class="section-label"><span class="en">Featured Work</span><span class="de">Ausgewählte Arbeiten</span></div>
@@ -901,14 +730,137 @@
         <div class="project-card reveal" onclick="window.open('https://play.google.com/store/apps/details?id=com.haqdarshak.jana&hl=en&gl=US','_blank')" style="cursor:pointer;"><div class="project-img"><img src="hespl.png" alt="HESPL"></div><div class="project-body"><div class="project-type">Social Enterprise</div><h3 class="project-title">HESPL Android + Web Apps</h3><p class="project-desc en">Customized internal dashboard and analysis across different states and cities for already listed schemes and targeted benefits.</p><p class="project-desc de">Maßgeschneidertes internes Dashboard und Analyse für verschiedene Bundesstaaten und Städte.</p></div></div>
         <div class="project-card reveal" onclick="window.open('https://shop.divinesolitaires.com/','_blank')" style="cursor:pointer;"><div class="project-img"><img src="divine-solitaires.png" alt="Divine Solitaires"></div><div class="project-body"><div class="project-type">Magento / Shopware Shop</div><h3 class="project-title">DS – Premium Jewelry</h3><p class="project-desc en">From initial requirement to deployment phase — end-to-end development of brand and e-commerce shopping platform.</p><p class="project-desc de">Von der Anforderungsaufnahme bis zum Deployment – vollständige End-to-End-Entwicklung der E-Commerce-Plattform.</p></div></div>
         <div class="project-card reveal" onclick="window.open('https://www.linkedin.com/company/tacto-in/','_blank')" style="cursor:pointer;"><div class="project-img"><img src="Tacto.png" alt="Tacto"></div><div class="project-body"><div class="project-type">Fashion</div><h3 class="project-title">Tacto Web + Mobile Apps</h3><p class="project-desc en">First entry-level experience from requirement gathering to delivery lifecycle — iteration model with UI/UX improvement focus + partial development.</p><p class="project-desc de">Erste Erfahrungen vom Anforderungsmanagement bis zum Delivery – iteratives Modell mit UI/UX-Fokus.</p></div></div>
-        <div class="project-card reveal" onclick="window.open('https://www.goatsocceracademy.de/','_blank')" style="cursor:pointer;"><div class="project-img"><img src="Goat-soccer-academy.png" alt="GOAT Soccer Academy"></div><div class="project-body"><div class="project-type">Shopify Website - In Process</div><h3 class="project-title">GOAT Soccer Academy</h3><p class="project-desc en">Fully-functional website implementation for GOAT Soccer Academy, focusing on user-friendly design and seamless navigation.</p><p class="project-desc de">Vollständige Website für die GOAT Soccer Academy mit benutzerfreundlichem Design und nahtloser Navigation.</p></div></div>
-        <div class="project-card reveal" onclick="window.open('https://electro-solution-nrw.de/','_blank')" style="cursor:pointer;"><div class="project-img"><img src="Electro-solution.png" alt="Electro Solution NRW"></div><div class="project-body"><div class="project-type">WordPress Website</div><h3 class="project-title">Electro Solution NRW</h3><p class="project-desc en">WordPress-based Chat and Lead capture platform for electrical products delivering various services with optimized conversion flows and analytics.</p><p class="project-desc de">Eine auf WordPress basierende Chat- und Lead-Erfassungsplattform für Elektroprodukte, die verschiedene Dienste mit optimierten Konversionsabläufen und Analysen bietet.</p></div></div>   
+        <div class="project-card reveal" onclick="window.open('https://www.goatsocceracademy.de/','_blank')" style="cursor:pointer;"><div class="project-img"><img src="Goat-soccer-academy.png" alt="GOAT Soccer Academy"></div><div class="project-body"><div class="project-type">Shopify Website – In Process</div><h3 class="project-title">GOAT Soccer Academy</h3><p class="project-desc en">Fully-functional website implementation for GOAT Soccer Academy, focusing on user-friendly design and seamless navigation.</p><p class="project-desc de">Vollständige Website für die GOAT Soccer Academy mit benutzerfreundlichem Design und nahtloser Navigation.</p></div></div>
+        <div class="project-card reveal" onclick="window.open('https://electro-solution-nrw.de/','_blank')" style="cursor:pointer;"><div class="project-img"><img src="Electro-solution.png" alt="Electro Solution NRW"></div><div class="project-body"><div class="project-type">WordPress Website</div><h3 class="project-title">Electro Solution NRW</h3><p class="project-desc en">WordPress-based Chat and Lead capture platform for electrical products delivering various services with optimized conversion flows and analytics.</p><p class="project-desc de">Eine auf WordPress basierende Chat- und Lead-Erfassungsplattform für Elektroprodukte mit optimierten Konversionsabläufen und Analysen.</p></div></div>
         <div class="project-card reveal"><div class="project-img"><img src="John-deere.png" alt="John Deere"></div><div class="project-body"><div class="project-type">University Project</div><h3 class="project-title">John Deere Work-Sync</h3><p class="project-desc en">Led a team of 6 for Work-Sync app — a B2B platform for creating work plans in the John Deere ecosystem. Successfully launched platform-compatible MVP.</p><p class="project-desc de">Leitung eines 6-köpfigen Teams für die Work-Sync-App im John Deere-Ökosystem. Erfolgreicher MVP-Launch.</p></div></div>
         <div class="project-card reveal"><div class="project-img"><img src="Fraunhofer-IESE.png" alt="Fraunhofer IESE"></div><div class="project-body"><div class="project-type">Research Project</div><h3 class="project-title">Digital Process Engine MVP</h3><p class="project-desc en">Developed a Digital Process Engine MVP integrating BPMN, Digital Twin, and AAS at Fraunhofer IESE to enhance workflow automation and real-time process monitoring.</p><p class="project-desc de">Digital Process Engine MVP mit BPMN, Digital Twin und AAS bei Fraunhofer IESE zur Verbesserung der Workflow-Automatisierung.</p></div></div>
- </div>
+    </div>
 </section>
 
-<!-- ═══ SKILLS (unchanged) ═══ -->
+<!-- ═══ CERTIFICATIONS & AWARDS ═══ -->
+<section id="certifications">
+    <div class="section-header reveal">
+        <div class="section-label"><span class="en">Credentials</span><span class="de">Nachweise</span></div>
+        <h2 class="section-title"><span class="en">Certifications &amp; Awards</span><span class="de">Zertifikate &amp; Auszeichnungen</span></h2>
+        <p class="section-desc en">Recognised expertise validated by leading institutions and industry bodies.</p>
+        <p class="section-desc de">Anerkannte Fachkenntnisse, bestätigt von führenden Institutionen und Branchenorganisationen.</p>
+    </div>
+
+    <div class="cert-layout">
+
+        <!-- ── LEFT: CERTIFICATIONS ── -->
+        <div class="reveal">
+            <div class="cert-col-head">
+                <div class="cert-col-icon orange">🎓</div>
+                <div class="cert-col-title orange en">Certifications</div>
+                <div class="cert-col-title orange de">Zertifikate</div>
+            </div>
+
+            <!-- Coursera: Product Management -->
+            <a href="https://www.coursera.org/professional-certificates/google-project-management" target="_blank" rel="noopener noreferrer" class="cert-item linked">
+                <div class="cert-badge orange">📋</div>
+                <div class="cert-body">
+                    <div class="cert-name en">Product Management</div>
+                    <div class="cert-name de">Produktmanagement</div>
+                    <div class="cert-issuer">Coursera</div>
+                </div>
+                <div class="cert-year">2022</div>
+                <span class="cert-arrow">↗</span>
+            </a>
+
+            <!-- Certified Scrum Master -->
+            <a href="https://www.scrumalliance.org/get-certified/scrum-master-track/certified-scrummaster" target="_blank" rel="noopener noreferrer" class="cert-item linked">
+                <div class="cert-badge orange">🔄</div>
+                <div class="cert-body">
+                    <div class="cert-name en">Certified Scrum Master (CSM)</div>
+                    <div class="cert-name de">Zertifizierter Scrum Master (CSM)</div>
+                    <div class="cert-issuer">Scrum Alliance</div>
+                </div>
+                <div class="cert-year">2022</div>
+                <span class="cert-arrow">↗</span>
+            </a>
+
+            <!-- Google Analytics 4 -->
+            <a href="https://skillshop.credential.net/group/googleanalytics" target="_blank" rel="noopener noreferrer" class="cert-item linked">
+                <div class="cert-badge orange">📊</div>
+                <div class="cert-body">
+                    <div class="cert-name en">Google Analytics 4 Certified</div>
+                    <div class="cert-name de">Google Analytics 4 Zertifikat</div>
+                    <div class="cert-issuer">Google Skillshop</div>
+                </div>
+                <div class="cert-year">2023</div>
+                <span class="cert-arrow">↗</span>
+            </a>
+
+            <!-- Certificate of Excellence -->
+            <div class="cert-item">
+                <div class="cert-badge orange">🏅</div>
+                <div class="cert-body">
+                    <div class="cert-name en">Certificate of Excellence</div>
+                    <div class="cert-name de">Exzellenz-Zertifikat</div>
+                    <div class="cert-issuer en">Academic Achievement</div>
+                    <div class="cert-issuer de">Akademische Leistung</div>
+                </div>
+                <div class="cert-year">2016</div>
+            </div>
+        </div>
+
+        <!-- ── RIGHT: AWARDS ── -->
+        <div class="reveal">
+            <div class="cert-col-head">
+                <div class="cert-col-icon teal">🏆</div>
+                <div class="cert-col-title teal en">Awards</div>
+                <div class="cert-col-title teal de">Auszeichnungen</div>
+            </div>
+
+            <!-- Digital Twin Hackathon -->
+            <a href="https://www.iese.fraunhofer.de/" target="_blank" rel="noopener noreferrer" class="cert-item award linked">
+                <div class="cert-badge teal">🥇</div>
+                <div class="cert-body">
+                    <div class="cert-name en">Digital Twin Hackathon — Winner</div>
+                    <div class="cert-name de">Digital Twin Hackathon — Gewinner</div>
+                    <div class="cert-issuer en">Fraunhofer IESE</div>
+                    <div class="cert-issuer de">Fraunhofer IESE</div>
+                </div>
+                <div class="cert-year">2023</div>
+                <span class="cert-arrow">↗</span>
+            </a>
+
+            <!-- JRD Tata Scholarship -->
+            <a href="https://www.tata.com/foundation" target="_blank" rel="noopener noreferrer" class="cert-item award linked">
+                <div class="cert-badge teal">🎯</div>
+                <div class="cert-body">
+                    <div class="cert-name en">JRD Tata Scholarship</div>
+                    <div class="cert-name de">JRD-Tata-Stipendium</div>
+                    <div class="cert-issuer">Tata Foundation</div>
+                </div>
+                <div class="cert-year">2014 – 15</div>
+                <span class="cert-arrow">↗</span>
+            </a>
+
+            <!-- LinkedIn Recommendations callout -->
+            <a href="https://www.linkedin.com/in/mitesh-vishwasrao-302059a6/details/recommendations/" target="_blank" rel="noopener noreferrer" class="cert-item award linked" style="margin-top:1.5rem; background: linear-gradient(135deg, rgba(78,205,196,0.06), rgba(255,107,53,0.04)); border-color: rgba(78,205,196,0.2);">
+                <div class="cert-badge teal">💼</div>
+                <div class="cert-body">
+                    <div class="cert-name en">Peer Recommendations</div>
+                    <div class="cert-name de">Kollegenempfehlungen</div>
+                    <div class="cert-issuer en">Read what colleagues say on LinkedIn</div>
+                    <div class="cert-issuer de">Was Kollegen auf LinkedIn sagen</div>
+                </div>
+                <span class="cert-arrow">↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Bottom note -->
+    <div class="cert-note reveal">
+        <div class="cert-note-dot"></div>
+        <p class="en">All certifications and credentials are verifiable. Full profile available on <a href="https://www.linkedin.com/in/mitesh-vishwasrao-302059a6" target="_blank">LinkedIn</a>.</p>
+        <p class="de">Alle Zertifikate sind verifizierbar. Vollständiges Profil auf <a href="https://www.linkedin.com/in/mitesh-vishwasrao-302059a6" target="_blank">LinkedIn</a> verfügbar.</p>
+    </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
 <section id="skills">
     <div class="section-header reveal">
         <div class="section-label"><span class="en">Expertise</span><span class="de">Fachkenntnisse</span></div>
@@ -930,17 +882,14 @@
     </div>
 </section>
 
-<!-- ═══ CONTACT — EDITORIAL SPLIT ═══ -->
+<!-- ═══ CONTACT ═══ -->
 <section id="contact">
     <div class="section-header reveal">
         <div class="section-label"><span class="en">Let's Connect</span><span class="de">Kontakt aufnehmen</span></div>
         <h2 class="section-title"><span class="en">Get in Touch</span><span class="de">Schreib mir</span></h2>
     </div>
-
     <div class="contact-split-outer reveal">
         <div class="contact-split">
-
-            <!-- LEFT: editorial statement -->
             <div class="cs-left">
                 <h2 class="cs-big en">Ready to build <span class="word-accent">some</span><span class="word-accent2">thing</span> great?</h2>
                 <h2 class="cs-big de">Bereit etwas <span class="word-accent">Großar</span><span class="word-accent2">tiges</span> zu bauen?</h2>
@@ -952,46 +901,23 @@
                     <span class="de">Aktuell offen für Stellen</span>
                 </div>
             </div>
-
-            <!-- RIGHT: link rows -->
             <div class="cs-right">
-
                 <a href="mailto:mitesh.vishwasraoo@gmail.com" class="cs-link">
                     <div class="cs-icon">✉️</div>
-                    <div class="cs-info">
-                        <div class="cs-lbl en">Email</div>
-                        <div class="cs-lbl de">E-Mail</div>
-                        <div class="cs-val">mitesh.vishwasraoo</div>
-                    </div>
+                    <div class="cs-info"><div class="cs-lbl en">Email</div><div class="cs-lbl de">E-Mail</div><div class="cs-val">mitesh.vishwasraoo</div></div>
                 </a>
-
                 <a href="https://www.linkedin.com/in/mitesh-vishwasrao-302059a6" target="_blank" class="cs-link">
                     <div class="cs-icon">💼</div>
-                    <div class="cs-info">
-                        <div class="cs-lbl">LinkedIn</div>
-                        <div class="cs-val en">View Profile</div>
-                        <div class="cs-val de">Profil &amp; Empfehlungen ansehen</div>
-                    </div>
+                    <div class="cs-info"><div class="cs-lbl">LinkedIn</div><div class="cs-val en">View Profile</div><div class="cs-val de">Profil &amp; Empfehlungen ansehen</div></div>
                 </a>
-
                 <a href="https://www.linkedin.com/in/mitesh-vishwasrao-302059a6/details/recommendations/" target="_blank" class="cs-link">
                     <div class="cs-icon">⭐</div>
-                    <div class="cs-info">
-                        <div class="cs-lbl en">Recommendations</div>
-                        <div class="cs-lbl de">Empfehlungen</div>
-                        <div class="cs-val en">Read what colleagues say</div>
-                        <div class="cs-val de">Was Kollegen sagen</div>
-                    </div>
+                    <div class="cs-info"><div class="cs-lbl en">Recommendations</div><div class="cs-lbl de">Empfehlungen</div><div class="cs-val en">Read what colleagues say</div><div class="cs-val de">Was Kollegen sagen</div></div>
                 </a>
-
                 <a href="https://www.instagram.com/live_ineurope/" target="_blank" class="cs-link">
                     <div class="cs-icon">📸</div>
-                    <div class="cs-info">
-                        <div class="cs-lbl">Instagram</div>
-                        <div class="cs-val">@live_ineurope</div>
-                    </div>
+                    <div class="cs-info"><div class="cs-lbl">Instagram</div><div class="cs-val">@live_ineurope</div></div>
                 </a>
-
             </div>
         </div>
     </div>
@@ -1008,15 +934,12 @@
 </footer>
 
 <script>
-    /* ── Language ── */
     function setLang(lang) {
         document.body.className = 'lang-' + lang;
         ['btn-en','btn-de'].forEach(id => document.getElementById(id).classList.toggle('active', id === 'btn-' + lang));
         ['mBtn-en','mBtn-de'].forEach(id => document.getElementById(id).classList.toggle('active', id === 'mBtn-' + lang));
         document.documentElement.lang = lang;
     }
-
-    /* ── Mobile nav ── */
     const mobileNav = document.getElementById('mobileNav');
     const hamburger = document.getElementById('hamburger');
     function toggleMobile() {
@@ -1029,15 +952,11 @@
         hamburger.classList.remove('open');
         document.body.style.overflow = '';
     }
-
-    /* ── Scroll reveal ── */
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
     }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
-
-    /* ── Smooth scroll ── */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', e => {
             e.preventDefault();
